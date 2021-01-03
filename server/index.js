@@ -1,13 +1,25 @@
+import 'dotenv/config';
 const express = require('express');
 const passport = require('passport');
-require('./services/passport');
 const mongoose = require('mongoose');
 // const cors = require('cors');
-const PORT = process.env.PORT || 8080;
 const session = require('express-session');
 // const corsOptions = {
 //   origin: 'http://localhost:8081',
 // };
+const PORT = process.env.PORT || 8080;
+require('./services/passport');
+
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('Connected to trippyDB');
+});
 
 const app = express();
 
@@ -21,23 +33,12 @@ app.use(
 app.use(passport.initialize());
 // Persistent Login Sessions
 app.use(passport.session());
+
 // Require Authentication Route File containing Spotify Auth Routes
 require('./routes/authRoutes')(app);
-
-// TODO Move to .env file before production
-// mongoose.connect(MONGODB_URL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function () {
-//   console.log('Connected to database');
-// });
 
 app.get('/', (req, res) => {
   res.send(req.user);
 });
 
-app.listen(PORT, () => console.log(`Connected to ${PORT}`));
+app.listen(PORT, () => console.log(`Connected to port ${PORT}`));
