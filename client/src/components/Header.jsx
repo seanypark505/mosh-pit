@@ -11,7 +11,7 @@ function Header() {
 
   return (
     <Menu pointing secondary size="large">
-      <Menu.Item header>Mosh Pit</Menu.Item>
+      <Menu.Item header>Trippy</Menu.Item>
 
       <Menu.Menu position="right">
         <Menu.Item
@@ -23,18 +23,18 @@ function Header() {
         </Menu.Item>
 
         <Menu.Item
-          name="search"
-          active={activeItem === 'search'}
+          name="account"
+          active={activeItem === 'account'}
           onClick={handleItemClick}
         >
-          Search
+          Account
         </Menu.Item>
         <Menu.Item
-          name="sign-in"
-          active={activeItem === 'sign-in'}
+          name="log-in"
+          active={activeItem === 'log-in'}
           onClick={handleItemClick}
         >
-          Sign In
+          Log In
         </Menu.Item>
       </Menu.Menu>
     </Menu>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
+import { Button, Icon, Form, Grid, Header, Segment } from 'semantic-ui-react';
 
 const LogIn = () => (
   <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as="h2" color="teal" textAlign="center">
-        <Image src="/logo.png" /> Log-in to Trippy
+        Log-In to Trippy
       </Header>
       <Form size="large">
         <Segment stacked>
@@ -24,7 +24,13 @@ const LogIn = () => (
           />
 
           <Button color="teal" fluid size="large">
-            Login
+            Log In
+          </Button>
+        </Segment>
+        <p>or</p>
+        <Segment stacked>
+          <Button color="spotify" fluid size="large">
+            <Icon name="spotify" /> Spotify
           </Button>
         </Segment>
       </Form>
