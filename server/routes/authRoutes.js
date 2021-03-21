@@ -5,7 +5,7 @@ module.exports = (app) => {
     '/auth/spotify',
     passport.authenticate('spotify', {
       scope: ['user-read-email', 'user-read-private', 'user-follow-read'],
-      showDialog: false,
+      showDialog: true,
     })
   );
 
