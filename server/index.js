@@ -8,6 +8,7 @@ const session = require('express-session');
 //   origin: 'http://localhost:8081',
 // };
 const PORT = process.env.PORT || 8080;
+require('./models/User');
 require('./services/passport');
 
 mongoose.connect(process.env.MONGODB_URL, {
