@@ -1,7 +1,10 @@
 import 'dotenv/config';
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 8080;
+
+const User = mongoose.model('users');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -19,12 +22,22 @@ passport.use(
       callbackURL: 'http://localhost:' + PORT + '/auth/spotify/callback',
     },
     function (accessToken, refreshToken, expires_in, profile, done) {
-      process.nextTick(function () {
-        // To keep the example simple, the user's spotify profile is returned to
-        // represent the logged-in user. In a typical application, you would want
-        // to associate the spotify account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
+      User.findOne({ spotifyId: profile.id }).then((existingUser) => {
+        if (existingUser) {
+          //we laready have a record.
+          done(null, existingUser);
+        } else {
+          //we don't have a user record, make one
+          new User({
+            spotifyId: profile.id,
+            email: profile._json.email,
+            name: profile.displayName,
+            acccessToken: accessToken,
+            refreshToken: refreshToken,
+          })
+            .save()
+            .then((user) => done(null, user));
+        }
       });
     }
   )
